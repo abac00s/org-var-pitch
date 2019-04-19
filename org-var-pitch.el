@@ -25,9 +25,9 @@
 
 ;;   (org-var-pitch-init)
 
-;; - enable variable-pitch-mode in Org Mode, for example:
+;; - enable org-var-pitch-mode in Org Mode, for example:
 
-;;   (add-hook 'org-mode-hook #'variable-pitch-mode)
+;;   (add-hook 'org-mode-hook #'org-var-pitch-mode)
 
 ;; If you use company for autocompletion, results in the popup window may appear
 ;; to zig-zag. A workaround is to install and use company-box.
@@ -161,13 +161,24 @@ default face."
   (unless fixed-face
     (setq fixed-face 'default))
 
-  (org-var-pitch-clone-face fixed-face 'org-var-pitch-fixed)
+  (org-var-pitch-clone-face fixed-face 'org-var-pitch-fixed))
 
-  (dolist (face org-var-pitch-all-faces)
-    (set-face-attribute face nil :inherit 'org-var-pitch-fixed))
 
-  (dolist (face org-var-pitch-variable-pitch-faces)
-    (set-face-attribute face nil :inherit 'default)))
+(define-minor-mode org-var-pitch-mode
+  "Mixed pitch fonts in Org Mode."
+  :group 'org-var-pitch
+  :lighter "ovp"
+  (if org-var-pitch-mode
+      (progn
+        (dolist (face org-var-pitch-all-faces)
+          (set-face-attribute face nil :inherit 'org-var-pitch-fixed))
+        (dolist (face org-var-pitch-variable-pitch-faces)
+          (set-face-attribute face nil :inherit 'variable-pitch))
+        (variable-pitch-mode 1))
+    (progn
+      (dolist (face org-var-pitch-all-faces)
+        (set-face-attribute face nil :inherit nil))
+      (variable-pitch-mode -1))))
 
 
 (provide 'org-var-pitch)
