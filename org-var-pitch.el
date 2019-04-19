@@ -167,7 +167,7 @@ default face."
     (set-face-attribute face nil :inherit 'org-var-pitch-fixed))
 
   (dolist (face org-var-pitch-variable-pitch-faces)
-    (set-face-attribute face nil :inherit 'variable-pitch)))
+    (set-face-attribute face nil :inherit 'default)))
 
 
 (provide 'org-var-pitch)
